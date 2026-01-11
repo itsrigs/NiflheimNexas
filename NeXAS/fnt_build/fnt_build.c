@@ -1,5 +1,5 @@
-/*
-ÓÃÓÚ½«pngºÏ³Éfnt
+ï»¿/*
+ç”¨äºå°†pngåˆæˆfnt
 made by Darkness-TX
 2016.12.20
 */
@@ -22,9 +22,9 @@ struct header
 {
 	unit8 magic[4];//PAC\0
 	unit8 magic2[9];//DATA VER-
-	unit16 flag;//Îª1
-	unit16 fontflag;//0101Ã»×ÖÌåÃû£¬×ÖÄ£0xCÒ»×é£»0301ÓĞ×ÖÌåÃû£¬×ÖÄ£0x10Ò»×é
-	unit32 seekflag;//0xFFFF00ÓÒÒÆ9×Ö½Ú
+	unit16 flag;//ä¸º1
+	unit16 fontflag;//0101æ²¡å­—ä½“åï¼Œå­—æ¨¡0xCä¸€ç»„ï¼›0301æœ‰å­—ä½“åï¼Œå­—æ¨¡0x10ä¸€ç»„
+	unit32 seekflag;//0xFFFF00å³ç§»9å­—èŠ‚
 	unit32 height;
 	unit32 width;
 	unit32 compsize;
@@ -52,7 +52,7 @@ unit8* ReadIndex(char *fname,unit8* fntname,unit32 *savepos)
 	fread(fnt_header.magic, 1, 4, src);
 	if (strncmp(fnt_header.magic, "FNT\0", 4) != 0)
 	{
-		printf("ÎÄ¼şÍ·²»ÊÇFNT\0!");
+		printf("æ–‡ä»¶å¤´ä¸æ˜¯FNT\0!");
 		exit(0);
 	}
 	if (strncmp(fname, "systemascii", 11) != 0 && strncmp(fname, "systemtutorial", 14) != 0 && strncmp(fname, "system10b", 9))
@@ -62,12 +62,12 @@ unit8* ReadIndex(char *fname,unit8* fntname,unit32 *savepos)
 		fread(&fnt_header.fontflag, 1, 2, src);
 		if (strncmp(fnt_header.magic2, "DATA VER-", 9) != 0)
 		{
-			printf("ÎÄ¼şÍ·ÎŞDATA VER-!");
+			printf("æ–‡ä»¶å¤´æ— DATA VER-!");
 			exit(0);
 		}
 		else if (fnt_header.flag != 1)
 		{
-			printf("flag²»Îª1!");
+			printf("flagä¸ä¸º1!");
 			exit(0);
 		}
 		if (fnt_header.fontflag == 0x103)
@@ -128,20 +128,20 @@ unit8* ReadIndex(char *fname,unit8* fntname,unit32 *savepos)
 	png_ptr = png_create_read_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
 	if (png_ptr == NULL)
 	{
-		printf("PNGĞÅÏ¢´´½¨Ê§°Ü!\n");
+		printf("PNGä¿¡æ¯åˆ›å»ºå¤±è´¥!\n");
 		exit(0);
 	}
 	info_ptr = png_create_info_struct(png_ptr);
 	if (info_ptr == NULL)
 	{
-		printf("infoĞÅÏ¢´´½¨Ê§°Ü!\n");
+		printf("infoä¿¡æ¯åˆ›å»ºå¤±è´¥!\n");
 		png_destroy_read_struct(&png_ptr, (png_infopp)NULL, (png_infopp)NULL);
 		exit(0);
 	}
 	end_ptr = png_create_info_struct(png_ptr);
 	if (end_ptr == NULL)
 	{
-		printf("endĞÅÏ¢´´½¨Ê§°Ü!\n");
+		printf("endä¿¡æ¯åˆ›å»ºå¤±è´¥!\n");
 		png_destroy_read_struct(&png_ptr, &info_ptr, (png_infopp)NULL);
 		exit(0);
 	}
@@ -301,7 +301,7 @@ void WriteFntFile(char *fname)
 int main(int argc, char *argv[])
 {
 	setlocale(LC_ALL, "chs");
-	printf("project£ºNiflheim-BALDR HEART\nÓÃÓÚ½«pngºÏ³Éfnt¡£\n½«fntÎÄ¼şÍÏµ½³ÌĞòÉÏ¡£\nby Darkness-TX 2016.12.20\n\n");
+	printf("projectï¼šNiflheim-BALDR HEART\nç”¨äºå°†pngåˆæˆfntã€‚\nå°†fntæ–‡ä»¶æ‹–åˆ°ç¨‹åºä¸Šã€‚\nby Darkness-TX 2016.12.20\n\n");
 	WriteFntFile(argv[1]);
 #ifdef DEBUG
 	system("pause");

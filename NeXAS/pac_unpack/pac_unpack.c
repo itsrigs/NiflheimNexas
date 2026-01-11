@@ -1,9 +1,9 @@
-/*
-ÓÃÓÚ½â°üNeXASÒıÇæµÄpacÎÄ¼ş
+ï»¿/*
+ç”¨äºè§£åŒ…NeXASå¼•æ“çš„pacæ–‡ä»¶
 made by Darkness-TX
 2016.12.01
 
-Ìí¼ÓĞÂ°æNeXASÖ§³Ö
+æ·»åŠ æ–°ç‰ˆNeXASæ”¯æŒ
 upload by AyamiKaze
 2020.03.18
 */
@@ -23,21 +23,21 @@ typedef unsigned char  unit8;
 typedef unsigned short unit16;
 typedef unsigned int   unit32;
 
-unit32 FileNum = 0;//×ÜÎÄ¼şÊı£¬³õÊ¼¼ÆÊıÎª0
+unit32 FileNum = 0;//æ€»æ–‡ä»¶æ•°ï¼Œåˆå§‹è®¡æ•°ä¸º0
 
 struct header
 {
-	unit8 magic[4];//PAC\0»òPAC\x7F
+	unit8 magic[4];//PAC\0æˆ–PAC\x7F
 	unit32 num;
-	unit32 mode;//BHÖĞÊÇ4
+	unit32 mode;//BHä¸­æ˜¯4
 }pac_header;
 
 struct index
 {
-	unit8 name[64];//ÎÄ¼şÃû
-	unit32 Offset;//ÎÄ¼şÆ«ÒÆ
-	unit32 FileSize;//½âÑ¹´óĞ¡
-	unit32 ComSize;//Î´½âÑ¹´óĞ¡
+	unit8 name[64];//æ–‡ä»¶å
+	unit32 Offset;//æ–‡ä»¶åç§»
+	unit32 FileSize;//è§£å‹å¤§å°
+	unit32 ComSize;//æœªè§£å‹å¤§å°
 }Index[7000];
 
 void ReadIndex(char *fname)
@@ -50,7 +50,7 @@ void ReadIndex(char *fname)
 	fread(pac_header.magic, 4, 1, src);
 	if (strncmp(pac_header.magic, "PAC\0", 4) != 0 && *(unit32 *)pac_header.magic != 0x7F434150)//PAC\x7F
 	{
-		printf("ÎÄ¼şÍ·²»ÊÇPAC\\0»òPAC\\x7F!\nÒª¼ÌĞø½â°üÇë°´ÈÎÒâ¼ü£¬²»½â°üÇë¹Ø±Õ³ÌĞò¡£\n");
+		printf("æ–‡ä»¶å¤´ä¸æ˜¯PAC\\0æˆ–PAC\\x7F!\nè¦ç»§ç»­è§£åŒ…è¯·æŒ‰ä»»æ„é”®ï¼Œä¸è§£åŒ…è¯·å…³é—­ç¨‹åºã€‚\n");
 		system("pause");
 	}
 	fread(&pac_header.num, 4, 1, src);
@@ -58,7 +58,7 @@ void ReadIndex(char *fname)
 	printf("%s filenum:%d mode:%d\n\n", fname, pac_header.num, pac_header.mode);
 	if (pac_header.mode != 4 && pac_header.mode != 7)
 	{
-		printf("²»ÊÇÄ£Ê½4»ò7£¡\n");
+		printf("ä¸æ˜¯æ¨¡å¼4æˆ–7ï¼\n");
 		system("pause");
 		exit(0);
 	}
@@ -128,10 +128,10 @@ void UnpackFile(char *fname)
 int main(int argc, char *argv[])
 {
 	setlocale(LC_ALL, "chs");
-	printf("project£ºNiflheim-NeXAS\nÓÃÓÚ½â°üNeXASÒıÇæµÄpacÎÄ¼ş¡£\n½«pacÎÄ¼şÍÏµ½³ÌĞòÉÏ¡£\nby Darkness-TX 2016.12.01\n\nÌí¼ÓĞÂ°æNeXAS·â°üÖ§³Ö\nby AyamiKaze 2020.03.18\n\n");
+	printf("Project: Niflheim-NeXAS\nUsed to unpack NeXAS engine PAC files.\nDrag PAC files onto the program.\nby Darkness-TX 2016.12.01\n\nAdded support for new NeXAS package versions\nby AyamiKaze 2020.03.18\n\n");
 	ReadIndex(argv[1]);
 	UnpackFile(argv[1]);
-	printf("ÒÑÍê³É£¬×ÜÎÄ¼şÊı%d\n", FileNum);
+	printf("å·²å®Œæˆï¼Œæ€»æ–‡ä»¶æ•°%d\n", FileNum);
 	system("pause");
 	return 0;
 }

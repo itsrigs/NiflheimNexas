@@ -1,4 +1,4 @@
-//base on Giga_pac_Assage
+ï»¿//base on Giga_pac_Assage
 #define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
 #include <string.h>
@@ -27,7 +27,7 @@ void bits_init(struct bits *bits, unsigned char *stream, unsigned long stream_le
 	bits->stream_length = stream_length;
 }
 
-/* °ÑsetvalµÄ×îµÍÎ»ÉèÖÃµ½Àë×î¸ßÎ»×î½üµÄµØ·½¿ªÊ¼ */
+/* æŠŠsetvalçš„æœ€ä½ä½è®¾ç½®åˆ°ç¦»æœ€é«˜ä½æœ€è¿‘çš„åœ°æ–¹å¼€å§‹ */
 int bit_put_high(struct bits *bits, unsigned char setval)
 {
 	bits->curbits++;
@@ -43,7 +43,7 @@ int bit_put_high(struct bits *bits, unsigned char setval)
 	return 0;
 }
 
-/* °´ÕÕ´Ó¸ß×Ö½Úµ½µÍ×Ö½ÚµÄË³Ğò°ÑsetvalÖĞµÄÖµÉèÖÃµ½Àë×î¸ßÎ»×î½üµÄµØ·½¿ªÊ¼ */
+/* æŒ‰ç…§ä»é«˜å­—èŠ‚åˆ°ä½å­—èŠ‚çš„é¡ºåºæŠŠsetvalä¸­çš„å€¼è®¾ç½®åˆ°ç¦»æœ€é«˜ä½æœ€è¿‘çš„åœ°æ–¹å¼€å§‹ */
 int bits_put_high(struct bits *bits, unsigned int req_bits, void *setval)
 {
 	unsigned int this_bits;
@@ -83,8 +83,8 @@ typedef struct huffman_node
 {	
 	unit32 weight;
 	unit8 ascii;
-	unit32 code;			/* ¹ş·òÂü±àÂëÖµ */
-	unit32 code_lengths;	/* ¹ş·òÂü±àÂëÖµµÄÎ»Êı */
+	unit32 code;			/* å“ˆå¤«æ›¼ç¼–ç å€¼ */
+	unit32 code_lengths;	/* å“ˆå¤«æ›¼ç¼–ç å€¼çš„ä½æ•° */
 	struct huffman_node *parent;
 	struct huffman_node *left_child;
 	struct huffman_node *right_child;
@@ -92,7 +92,7 @@ typedef struct huffman_node
 
 static void huffman1_node_encode(huffman_node_t *node, unsigned int code, unsigned int code_lengths)
 {
-	/* ×îÏÈ±àÂë×óÏÂ½ÇµÄÒ¶½Úµã¿ªÊ¼ */
+	/* æœ€å…ˆç¼–ç å·¦ä¸‹è§’çš„å¶èŠ‚ç‚¹å¼€å§‹ */
 	if (node->left_child)
 	{
 		code <<= 1;
@@ -102,7 +102,7 @@ static void huffman1_node_encode(huffman_node_t *node, unsigned int code, unsign
 		huffman1_node_encode(node->right_child, code, code_lengths);
 	}
 	else
-	{	/* Ò³½áµã */
+	{	/* é¡µç»“ç‚¹ */
 		node->code = code;
 		node->code_lengths = code_lengths;	
 	}
@@ -112,7 +112,7 @@ static int huffman_code_tree_encode(struct bits *bits, huffman_node_t *parent)
 {
 	if (parent->left_child)
 	{
-		if (bit_put_high(bits, 1))	/* ±íÊ¾µ±Ç°¸¸½ÚµãÓĞº¢×Ó */
+		if (bit_put_high(bits, 1))	/* è¡¨ç¤ºå½“å‰çˆ¶èŠ‚ç‚¹æœ‰å­©å­ */
 			return -1;
 		
 		if (huffman_code_tree_encode(bits, parent->left_child))
@@ -122,11 +122,11 @@ static int huffman_code_tree_encode(struct bits *bits, huffman_node_t *parent)
 			return -1;
 	}
 	else
-	{	/* Ò³½Úµã */
-		if (bit_put_high(bits, 0))	/* Î»0±êÖ¾±íÊ¾ÊÇÒ³½Úµã */
+	{	/* é¡µèŠ‚ç‚¹ */
+		if (bit_put_high(bits, 0))	/* ä½0æ ‡å¿—è¡¨ç¤ºæ˜¯é¡µèŠ‚ç‚¹ */
 			return -1;	
 		
-		/* Ğ´ÈëÒ³½ÚµãµÄasciiÖµ */
+		/* å†™å…¥é¡µèŠ‚ç‚¹çš„asciiå€¼ */
 		if (bits_put_high(bits, 8, (unsigned char *)&parent->ascii))
 			return -1;		
 	}
@@ -136,7 +136,7 @@ static int huffman_code_tree_encode(struct bits *bits, huffman_node_t *parent)
 static huffman_node_t *huffman_child_init(huffman_node_t *child_node, unsigned int is_right_child)
 {
 #ifdef MY_CUSTOM_0
-	child_node->code = is_right_child;	/* Ë³±ã±êÉÏ±àÂëÖµ£¨Ö»±êÃ÷×ó(0)»òÓÒ(1)) */
+	child_node->code = is_right_child;	/* é¡ºä¾¿æ ‡ä¸Šç¼–ç å€¼ï¼ˆåªæ ‡æ˜å·¦(0)æˆ–å³(1)) */
 	child_node->code_lengths = 1;
 #endif
 	
@@ -146,12 +146,12 @@ static huffman_node_t *huffman_child_init(huffman_node_t *child_node, unsigned i
 static unsigned int huffman_tree_create(huffman_node_t *nodes)
 {
 	huffman_node_t *pnodes[256],*pnode = 0;	
-	int leaves_node;				/* ÓĞĞ§µÄÒ¶½áµã¼ÆÊı */
-	int parent_node;				/* ºÏ²¢Ê±ĞÂ½áµãµÄÎ»ÖÃË÷Òı */
-	int child_node;					/* Ò¶½áµãÎ»ÖÃ¼ÆÊı */
+	int leaves_node;				/* æœ‰æ•ˆçš„å¶ç»“ç‚¹è®¡æ•° */
+	int parent_node;				/* åˆå¹¶æ—¶æ–°ç»“ç‚¹çš„ä½ç½®ç´¢å¼• */
+	int child_node;					/* å¶ç»“ç‚¹ä½ç½®è®¡æ•° */
 	int i;
 	
-	/* ½«³öÏÖ¹ıµÄ(È¨Öµ²»Îª0µÄ)Ò¶½Úµã·ÅÈë¶ÓÁĞ */
+	/* å°†å‡ºç°è¿‡çš„(æƒå€¼ä¸ä¸º0çš„)å¶èŠ‚ç‚¹æ”¾å…¥é˜Ÿåˆ— */
 	for (i = 0; nodes[i].weight && i < 256; i++)
 		pnodes[i] = &nodes[i];
 
@@ -159,7 +159,7 @@ static unsigned int huffman_tree_create(huffman_node_t *nodes)
 
 	if (leaves_node < 2)
 	{
-		printf("ÓĞĞ§µÄÒ¶½áµãÊıÄ¿¹ıÉÙ\n");
+		printf("æœ‰æ•ˆçš„å¶ç»“ç‚¹æ•°ç›®è¿‡å°‘\n");
 		return -1;
 	}
 
@@ -167,38 +167,38 @@ static unsigned int huffman_tree_create(huffman_node_t *nodes)
 	child_node = parent_node - 1;	
 	while (child_node > 0)
 	{
-		pnode = &nodes[parent_node++];	/* ºÏ²¢×óÓÒÒ¶½áµãÒÔºóµÄĞÂ½áµã */
+		pnode = &nodes[parent_node++];	/* åˆå¹¶å·¦å³å¶ç»“ç‚¹ä»¥åçš„æ–°ç»“ç‚¹ */
 		/* CUSTOM!! */
-		pnode->left_child = huffman_child_init(pnodes[child_node--], 0);	/* µÚ1¸öchild½áµã×÷Îª×ó½áµã */
-		pnode->right_child = huffman_child_init(pnodes[child_node--], 1);	/* µÚ2¸öchild½áµã×÷ÎªÓÒ½áµã */
-		pnode->left_child->parent = pnode->right_child->parent = pnode;		/* ĞÂ½áµã³ÉÎª¸¸½áµã */
-		pnode->weight = pnode->left_child->weight + pnode->right_child->weight;/* ¸¸½áµãÈ¨ÖµÎª2¸öº¢×ÓµÄÈ¨ÖµÖ®ºÍ */
-		/* ÕÒµ½Ò»¸öºÏÊÊµÄ²åÈëµã, ½«¸¸½áµã²åÈëÊ£Óà½áµã×é³ÉµÄÉ­ÁÖÖĞ */
+		pnode->left_child = huffman_child_init(pnodes[child_node--], 0);	/* ç¬¬1ä¸ªchildç»“ç‚¹ä½œä¸ºå·¦ç»“ç‚¹ */
+		pnode->right_child = huffman_child_init(pnodes[child_node--], 1);	/* ç¬¬2ä¸ªchildç»“ç‚¹ä½œä¸ºå³ç»“ç‚¹ */
+		pnode->left_child->parent = pnode->right_child->parent = pnode;		/* æ–°ç»“ç‚¹æˆä¸ºçˆ¶ç»“ç‚¹ */
+		pnode->weight = pnode->left_child->weight + pnode->right_child->weight;/* çˆ¶ç»“ç‚¹æƒå€¼ä¸º2ä¸ªå­©å­çš„æƒå€¼ä¹‹å’Œ */
+		/* æ‰¾åˆ°ä¸€ä¸ªåˆé€‚çš„æ’å…¥ç‚¹, å°†çˆ¶ç»“ç‚¹æ’å…¥å‰©ä½™ç»“ç‚¹ç»„æˆçš„æ£®æ—ä¸­ */
 		for (i = child_node; i >= 0; i--)
 		{
-			/* ÕÒµ½Ò»¸öºÏÊÊµÄ²åÈëµã */
+			/* æ‰¾åˆ°ä¸€ä¸ªåˆé€‚çš„æ’å…¥ç‚¹ */
 			/* custom!! */
 			if (pnodes[i]->weight >= pnode->weight)
 				break;
 		}
-		/* ½«ĞÂµÄ½Úµã²åÈëÕâ¸öÎ»ÖÃ */		
+		/* å°†æ–°çš„èŠ‚ç‚¹æ’å…¥è¿™ä¸ªä½ç½® */		
 		memmove(pnodes + i + 2, pnodes + i + 1, (child_node - i) * sizeof(huffman_node_t *));
 		pnodes[i + 1] = pnode;
 		child_node++;
 	}
-	/* pnode¾ÍÊÇ¸ù½áµã */
-	/* µ½ÁËÕâÀï£¬Éú³ÉÁËÒ»¸ö°´½µĞòÅÅÁĞµÄ2n - 1¸ö½áµãµÄ¶ÓÁĞpnodes */
+	/* pnodeå°±æ˜¯æ ¹ç»“ç‚¹ */
+	/* åˆ°äº†è¿™é‡Œï¼Œç”Ÿæˆäº†ä¸€ä¸ªæŒ‰é™åºæ’åˆ—çš„2n - 1ä¸ªç»“ç‚¹çš„é˜Ÿåˆ—pnodes */
 	huffman1_node_encode(pnode, 0, 0);
 
 	return leaves_node;	
 }
 
-/* °´½µĞòÅÅÁĞ */
+/* æŒ‰é™åºæ’åˆ— */
 static int huffman_weight_compare(const void *node1, const void *node2)
 {
 	huffman_node_t *nodes[2] = { (huffman_node_t *)node1, (huffman_node_t *)node2 };
 	
-	/* ÕâÀï±È½ÏµÄÇ°ºó2ÏîË³Ğò¾ö¶¨ÁËÅÅĞòÊÇÉıĞò»ò½µĞò */
+	/* è¿™é‡Œæ¯”è¾ƒçš„å‰å2é¡¹é¡ºåºå†³å®šäº†æ’åºæ˜¯å‡åºæˆ–é™åº */
 	return (int)nodes[1]->weight - (int)nodes[0]->weight;
 }
 
@@ -211,9 +211,9 @@ static int huffman_ascii_compare(const void *node1, const void *node2)
 
 int huffman_compress(unsigned char *compr, unsigned long *comprlen, unsigned char *uncompr, unsigned long uncomprlen)
 {
-	/* n¸öÒ¶×ÓµÄ¹ş·òÂüÊ÷Òª¾­¹ın-1´ÎºÏ²¢£¬²úÉún-1¸öĞÂ½áµã¡£
-	 * ×îÖÕÇóµÃµÄ¹ş·òÂüÊ÷ÖĞ¹²ÓĞ2n-1¸ö½áµã¡£*/
-	huffman_node_t nodes[2 * 256 - 1];	/* huffmanÊ÷µÄ×î´ó½áµãÊı(2 ^ N - 1) */
+	/* nä¸ªå¶å­çš„å“ˆå¤«æ›¼æ ‘è¦ç»è¿‡n-1æ¬¡åˆå¹¶ï¼Œäº§ç”Ÿn-1ä¸ªæ–°ç»“ç‚¹ã€‚
+	 * æœ€ç»ˆæ±‚å¾—çš„å“ˆå¤«æ›¼æ ‘ä¸­å…±æœ‰2n-1ä¸ªç»“ç‚¹ã€‚*/
+	huffman_node_t nodes[2 * 256 - 1];	/* huffmanæ ‘çš„æœ€å¤§ç»“ç‚¹æ•°(2 ^ N - 1) */
 	unsigned int leaves;
 	unsigned int output_bits;
 	unsigned long i;
@@ -222,18 +222,18 @@ int huffman_compress(unsigned char *compr, unsigned long *comprlen, unsigned cha
 	
 	memset(nodes, 0, sizeof(nodes));	
 
-	/* Ç°256¸ö½áµã(NµÄ×î´ó¿ÉÄÜÖµ)ÓÃÓÚ´æ·Å¹ş·òÂüÊ÷µÄÒ¶½áµã */
+	/* å‰256ä¸ªç»“ç‚¹(Nçš„æœ€å¤§å¯èƒ½å€¼)ç”¨äºå­˜æ”¾å“ˆå¤«æ›¼æ ‘çš„å¶ç»“ç‚¹ */
 	for (i = 0; i < 256; i++)
-		nodes[i].ascii = (unit8)i;	/* for debug: ±ê¼Ç¸ÃÒ¶½áµãËù´ú±íµÄasciiÖµ */
+		nodes[i].ascii = (unit8)i;	/* for debug: æ ‡è®°è¯¥å¶ç»“ç‚¹æ‰€ä»£è¡¨çš„asciiå€¼ */
 		
-	/* ¼ÆËãÊäÈëµÄ×Ö½ÚÊı¾İµÄ³öÏÖÆµ¶È */
+	/* è®¡ç®—è¾“å…¥çš„å­—èŠ‚æ•°æ®çš„å‡ºç°é¢‘åº¦ */
 	for (i = 0; i < uncomprlen; i++)
 		nodes[uncompr[i]].weight++;
 		
-	/* °´ÕÕÆµ¶È£¨È¨£©½µĞòÅÅĞò */
+	/* æŒ‰ç…§é¢‘åº¦ï¼ˆæƒï¼‰é™åºæ’åº */
 	qsort(nodes, 256, sizeof(huffman_node_t), huffman_weight_compare);
 	
-	/* ´´½¨huffmanÊ÷ */	
+	/* åˆ›å»ºhuffmanæ ‘ */	
 	leaves = huffman_tree_create(nodes);
 
 	root = &nodes[0];
@@ -245,7 +245,7 @@ int huffman_compress(unsigned char *compr, unsigned long *comprlen, unsigned cha
 		return -1;
 
 	// sort nodes depending on ascii to can index nodes with its ascii value
-	// ÒÔ±ãÏÂÃæ½øĞĞË÷Òı
+	// ä»¥ä¾¿ä¸‹é¢è¿›è¡Œç´¢å¼•
 	qsort(nodes, 256, sizeof(huffman_node_t), huffman_ascii_compare);
 
 	output_bits = bits.curbyte * 8 + bits.curbits;

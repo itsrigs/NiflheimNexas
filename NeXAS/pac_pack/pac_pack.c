@@ -1,9 +1,9 @@
-/*
-ÓÃÓÚ·â°üNeXASÒıÇæµÄpacÎÄ¼ş
+ï»¿/*
+ç”¨äºå°åŒ…NeXASå¼•æ“çš„pacæ–‡ä»¶
 made by Darkness-TX
 2016.12.01
 
-Ìí¼ÓĞÂ°æNeXASÖ§³Ö
+æ·»åŠ æ–°ç‰ˆNeXASæ”¯æŒ
 upload by AyamiKaze
 2020.03.18
 */
@@ -23,21 +23,21 @@ typedef unsigned char  unit8;
 typedef unsigned short unit16;
 typedef unsigned int   unit32;
 
-unit32 FileNum = 0;//×ÜÎÄ¼şÊı£¬³õÊ¼¼ÆÊıÎª0
+unit32 FileNum = 0;//æ€»æ–‡ä»¶æ•°ï¼Œåˆå§‹è®¡æ•°ä¸º0
 
 struct header
 {
 	unit8 magic[4];//PAC\0
 	unit32 num;
-	unit32 mode;//BHÖĞÊÇ4
+	unit32 mode;//BHä¸­æ˜¯4
 }pac_header;
 
 struct index
 {
-	WCHAR name[64];//ÎÄ¼şÃû
-	unit32 Offset;//ÎÄ¼şÆ«ÒÆ
-	unit32 FileSize;//½âÑ¹´óĞ¡
-	unit32 ComSize;//Î´½âÑ¹´óĞ¡
+	WCHAR name[64];//æ–‡ä»¶å
+	unit32 Offset;//æ–‡ä»¶åç§»
+	unit32 FileSize;//è§£å‹å¤§å°
+	unit32 ComSize;//æœªè§£å‹å¤§å°
 }Index[7000];
 
 /*
@@ -51,7 +51,7 @@ void ReadIndex(char *fname)
 	fread(pac_header.magic, 4, 1, src);
 	if (strncmp(pac_header.magic, "PAC\0", 4) != 0)
 	{
-		printf("ÎÄ¼şÍ·²»ÊÇPAC\0!\n");
+		printf("æ–‡ä»¶å¤´ä¸æ˜¯PAC\0!\n");
 		fclose(src);
 		system("pause");
 		exit(0);
@@ -63,7 +63,7 @@ void ReadIndex(char *fname)
 		printf("%s filenum:%d mode:%d\n\n", fname, pac_header.num, pac_header.mode);
 		if (pac_header.mode != 4)
 		{
-			printf("²»ÊÇÄ£Ê½4£¡\n");
+			printf("ä¸æ˜¯æ¨¡å¼4ï¼\n");
 			system("pause");
 			exit(0);
 		}
@@ -141,16 +141,16 @@ unit32 process_dir(char *dname)
 	long Handle;
 	unit32 i = 0;
 	struct _wfinddata64i32_t FileInfo;
-	_chdir(dname);//Ìø×ªÂ·¾¶
+	_chdir(dname);//è·³è½¬è·¯å¾„
 	if ((Handle = _wfindfirst(L"*.*", &FileInfo)) == -1L)
 	{
-		printf("Ã»ÓĞÕÒµ½Æ¥ÅäµÄÏîÄ¿\n");
+		printf("æ²¡æœ‰æ‰¾åˆ°åŒ¹é…çš„é¡¹ç›®\n");
 		system("pause");
 		return -1;
 	}
 	do
 	{
-		if (FileInfo.name[0] == '.')  //¹ıÂË±¾¼¶Ä¿Â¼ºÍ¸¸Ä¿Â¼
+		if (FileInfo.name[0] == '.')  //è¿‡æ»¤æœ¬çº§ç›®å½•å’Œçˆ¶ç›®å½•
 			continue;
 		swprintf(Index[FileNum].name, 260, FileInfo.name);
 		Index[FileNum].FileSize = FileInfo.size;
@@ -183,7 +183,7 @@ void PackFile(char *fname)
 		cdata = malloc(Index[i].ComSize);
 		Index[i].Offset = ftell(dst);
 		fread(udata, 1, Index[i].FileSize, src);
-		//mode >= 4Ê±£¬ÒÑÖªfnt¡¢pngÎÄ¼ş²»½øĞĞÑ¹Ëõ£¬Èç¹ûÑ¹ËõÁË»áÎŞ·¨¶ÁÈ¡
+		//mode >= 4æ—¶ï¼Œå·²çŸ¥fntã€pngæ–‡ä»¶ä¸è¿›è¡Œå‹ç¼©ï¼Œå¦‚æœå‹ç¼©äº†ä¼šæ— æ³•è¯»å–
 		if (wcscmp(bname, L"fnt") == 0 || wcscmp(bname, L"png") == 0)
 		{
 			fwrite(udata, 1, Index[i].FileSize, dst);
@@ -224,12 +224,12 @@ void PackFile(char *fname)
 int main(int argc, char *argv[])
 {
 	setlocale(LC_ALL, "chs");
-	printf("project£ºNiflheim-NeXAS\nÓÃÓÚ·â°üBHµÄpacÎÄ¼ş¡£\n½«ÎÄ¼ş¼ĞÍÏµ½³ÌĞòÉÏ¡£\nby Darkness-TX 2016.12.02\n\nÌí¼ÓĞÂ°æNeXAS·â°üÖ§³Ö\nby AyamiKaze 2020.03.18\n\n");
+	printf("Project: Niflheim-NeXAS\nPac file for BH packet capture.\nDrag the folder onto the program.\nby Darkness-TX 2016.12.02\n\nAdded support for new NeXAS packet capture version\nby AyamiKaze 2020.03.18\n\n");
 	//ReadIndex(argv[1]);
 	//packFileNoIndex(argv[1]);
 	process_dir(argv[1]);
 	PackFile(argv[1]);
-	printf("ÒÑÍê³É£¬×ÜÎÄ¼şÊı%d\n", FileNum);
+	printf("å·²å®Œæˆï¼Œæ€»æ–‡ä»¶æ•°%d\n", FileNum);
 	system("pause");
 	return 0;
 }

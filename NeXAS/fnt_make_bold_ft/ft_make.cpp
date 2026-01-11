@@ -1,4 +1,4 @@
-#include "ft_make.h"
+ï»¿#include "ft_make.h"
 
 FT_Make::FT_Make(string font_path, DWORD font_height, DWORD font_width)
 {
@@ -86,20 +86,20 @@ BYTE* BuildOutline(DWORD width, DWORD height, BYTE* data, bool do_delete)
 	BYTE *odata, *udata, *ddata;
 	height += 2;
 	width += 2;
-	odata = new BYTE[width*height];//²Ù×÷Êı¾İ£¬³õÊ¼×´Ì¬ºÍdataÒ»Ñù
-	udata = new BYTE[width*height];//³õÊ¼×´Ì¬ÎªÍùÉÏÆ«ÒÆÒ»ÏñËØµÄodata
-	ddata = new BYTE[width*height];//³õÊ¼×´Ì¬ÎªÍùÏÂÆ«ÒÆÒ»ÏñËØµÄodata
+	odata = new BYTE[width*height];//æ“ä½œæ•°æ®ï¼Œåˆå§‹çŠ¶æ€å’Œdataä¸€æ ·
+	udata = new BYTE[width*height];//åˆå§‹çŠ¶æ€ä¸ºå¾€ä¸Šåç§»ä¸€åƒç´ çš„odata
+	ddata = new BYTE[width*height];//åˆå§‹çŠ¶æ€ä¸ºå¾€ä¸‹åç§»ä¸€åƒç´ çš„odata
 	memset(odata, 0, width*height);
 	memset(udata, 0, width*height);
 	memset(ddata, 0, width*height);
-	//¹¹½¨£¬Êı¾İ·Åµ½ÇøÓòÖĞÍùÏÂºÍÍùÓÒÆ«ÒÆÒ»ÏñËØ
+	//æ„å»ºï¼Œæ•°æ®æ”¾åˆ°åŒºåŸŸä¸­å¾€ä¸‹å’Œå¾€å³åç§»ä¸€åƒç´ 
 	for (i = 0; i < height - 2; i++)
 		memcpy(odata + width + i*width + 1, data + i*(width - 2), width - 2);
-	//¹¹½¨Æ«ÒÆºóµÄÊı¾İ
-	memcpy(udata, odata + width, width*height - width);//ÉÏÒÆ
-	memcpy(ddata + width, odata, width*height - width);//ÏÂÒÆ
-	//¿ªÊ¼¹¹½¨Ãè±ßÊı¾İ£¬Ëã·¨Âï£¬´ó¸ÅÊÇÊÔ³öÀ´µÄ£¿
-	//ÉÏÏÂÆ«ÒÆºóµÄÊı¾İºÏ²¢
+	//æ„å»ºåç§»åçš„æ•°æ®
+	memcpy(udata, odata + width, width*height - width);//ä¸Šç§»
+	memcpy(ddata + width, odata, width*height - width);//ä¸‹ç§»
+	//å¼€å§‹æ„å»ºæè¾¹æ•°æ®ï¼Œç®—æ³•å˜›ï¼Œå¤§æ¦‚æ˜¯è¯•å‡ºæ¥çš„ï¼Ÿ
+	//ä¸Šä¸‹åç§»åçš„æ•°æ®åˆå¹¶
 	for (i = 0; i < width*height; i++)
 	{
 		if (udata[i] != 0xFF)
@@ -115,7 +115,7 @@ BYTE* BuildOutline(DWORD width, DWORD height, BYTE* data, bool do_delete)
 				udata[i] = 0xFF;
 		}
 	}
-	//Õâ¸ö½×¶ÎÖĞ¼äÏÈÀ´Ò»´Î£¬ÓĞĞËÈ¤¿ÉÒÔ×¢ÊÍºóÃæµÄ×óÓÒÆ«ÒÆ²¿·ÖÖ±½ÓÊä³öpng¿´¿´Éú³ÉµÄÍ¼Æ¬ÊÇÔõÃ´ÑùµÄ
+	//è¿™ä¸ªé˜¶æ®µä¸­é—´å…ˆæ¥ä¸€æ¬¡ï¼Œæœ‰å…´è¶£å¯ä»¥æ³¨é‡Šåé¢çš„å·¦å³åç§»éƒ¨åˆ†ç›´æ¥è¾“å‡ºpngçœ‹çœ‹ç”Ÿæˆçš„å›¾ç‰‡æ˜¯æ€ä¹ˆæ ·çš„
 	for (i = 0; i < width*height; i++)
 	{
 		if (odata[i] != 0xFF)
@@ -131,16 +131,16 @@ BYTE* BuildOutline(DWORD width, DWORD height, BYTE* data, bool do_delete)
 				odata[i] = 0xFF;
 		}
 	}
-	//¿ªÊ¼¹¹½¨×óÓÒÆ«ÒÆÒ»ÏñËØ²¿·Ö
+	//å¼€å§‹æ„å»ºå·¦å³åç§»ä¸€åƒç´ éƒ¨åˆ†
 	memset(udata, 0, width*height);
 	memset(ddata, 0, width*height);
-	//ÉÏÃæ´¦ÀíÍêµÄÊı¾İÏò×óÏòÓÒÆ«ÒÆÒ»¸öÏñËØ
+	//ä¸Šé¢å¤„ç†å®Œçš„æ•°æ®å‘å·¦å‘å³åç§»ä¸€ä¸ªåƒç´ 
 	for (i = 0; i < height; i++)
 	{
 		memcpy(udata + i * width, odata + i * width + 1, width - 2);
 		memcpy(ddata + i * width + 2, odata + i * width + 1, width - 2);
 	}
-	//×óÓÒºÏ²¢
+	//å·¦å³åˆå¹¶
 	for (i = 0; i < width*height; i++)
 	{
 		if (udata[i] != 0xFF)
@@ -156,7 +156,7 @@ BYTE* BuildOutline(DWORD width, DWORD height, BYTE* data, bool do_delete)
 				udata[i] = 0xFF;
 		}
 	}
-	//ÖĞ¼äÔÙÀ´Ò»´Î
+	//ä¸­é—´å†æ¥ä¸€æ¬¡
 	for (i = 0; i < width*height; i++)
 	{
 		if (odata[i] != 0xFF)
@@ -183,10 +183,10 @@ BYTE* FillOutlineData(DWORD width, DWORD height, DWORD fill, BYTE* data)
 {
 	DWORD i = 0;
 	BYTE *odata;
-	odata = new BYTE[width*height];//²Ù×÷Êı¾İ£¬³õÊ¼×´Ì¬ºÍdataÒ»Ñù
+	odata = new BYTE[width*height];//æ“ä½œæ•°æ®ï¼Œåˆå§‹çŠ¶æ€å’Œdataä¸€æ ·
 	memset(odata, 0, width*height);
 	for (i = 0; i < height - fill * 2; i++)
-		memcpy(odata + fill * width/*³õÊ¼ÍùÏÂÆ«ÒÆÏñËØ*/ + i*width + fill/*ÍùÓÒÆ«ÒÆ¶àÉÙÏñËØ*/, data + i*(width - fill * 2), width - fill * 2);
+		memcpy(odata + fill * width/*åˆå§‹å¾€ä¸‹åç§»åƒç´ */ + i*width + fill/*å¾€å³åç§»å¤šå°‘åƒç´ */, data + i*(width - fill * 2), width - fill * 2);
 	delete[] data;
 	return odata;
 }
@@ -202,24 +202,24 @@ void WritePng(FILE *pngfile, DWORD width, DWORD height, DWORD p_count, DWORD int
 	png_ptr = png_create_write_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
 	if (png_ptr == NULL)
 	{
-		printf("PNGĞÅÏ¢´´½¨Ê§°Ü!\n");
+		printf("PNGä¿¡æ¯åˆ›å»ºå¤±è´¥!\n");
 		exit(0);
 	}
 	info_ptr = png_create_info_struct(png_ptr);
 	if (info_ptr == NULL)
 	{
-		printf("infoĞÅÏ¢´´½¨Ê§°Ü!\n");
+		printf("infoä¿¡æ¯åˆ›å»ºå¤±è´¥!\n");
 		png_destroy_write_struct(&png_ptr, (png_infopp)NULL);
 		exit(0);
 	}
 	png_init_io(png_ptr, pngfile);
 	png_set_IHDR(png_ptr, info_ptr, width, height, 8, PNG_COLOR_TYPE_RGB_ALPHA, PNG_INTERLACE_NONE, PNG_COMPRESSION_TYPE_DEFAULT, PNG_FILTER_TYPE_DEFAULT);
 	png_write_info(png_ptr, info_ptr);
-	dst = new BYTE[width*height * 4];//×îÖÕÊı¾İ
-	src = new BYTE[width*height];//³õÊ¼ÏñËØÊı¾İ
+	dst = new BYTE[width*height * 4];//æœ€ç»ˆæ•°æ®
+	src = new BYTE[width*height];//åˆå§‹åƒç´ æ•°æ®
 	memset(src, 0, width*height);
 	for (i = 0; i < height - p_count * 2 - fill * 2; i++)
-		memcpy(src + p_count * width + fill*width/*³õÊ¼ÍùÏÂÆ«ÒÆÏñËØ*/ + i*width + p_count + fill/*ÍùÓÒÆ«ÒÆ¶àÉÙÏñËØ*/, data + i*(width - p_count * 2 - fill * 2), width - p_count * 2 - fill * 2);
+		memcpy(src + p_count * width + fill*width/*åˆå§‹å¾€ä¸‹åç§»åƒç´ */ + i*width + p_count + fill/*å¾€å³åç§»å¤šå°‘åƒç´ */, data + i*(width - p_count * 2 - fill * 2), width - p_count * 2 - fill * 2);
 	for (i = p_count; i > 0; i--)
 		if (i == p_count)
 			odata = BuildOutline(width - i * 2 - fill * 2, height - i * 2 - fill * 2, data, false);
@@ -227,7 +227,7 @@ void WritePng(FILE *pngfile, DWORD width, DWORD height, DWORD p_count, DWORD int
 			odata = BuildOutline(width - i * 2 - fill * 2, height - i * 2 - fill * 2, odata, true);
 	if (fill)
 		odata = FillOutlineData(width, height, fill, odata);
-	//ÏßÌõ×Ö
+	//çº¿æ¡å­—
 	if (interval)
 	{
 		for (k = 0; k < height; k++)
@@ -247,7 +247,7 @@ void WritePng(FILE *pngfile, DWORD width, DWORD height, DWORD p_count, DWORD int
 			}
 		}
 	}
-	//½¥±ä
+	//æ¸å˜
 	if (gradient)
 	{
 		for (k = 0; k < height; k++)
@@ -264,7 +264,7 @@ void WritePng(FILE *pngfile, DWORD width, DWORD height, DWORD p_count, DWORD int
 			}
 		}
 	}
-	//Êä³ö
+	//è¾“å‡º
 	for (i = 0; i < width*height; i++)
 	{
 		dst[i * 4] = src[i];

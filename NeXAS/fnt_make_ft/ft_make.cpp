@@ -1,4 +1,4 @@
-#include "ft_make.h"
+ï»¿#include "ft_make.h"
 
 FT_Make::FT_Make(string font_path, DWORD font_height, DWORD font_width)
 {
@@ -58,7 +58,7 @@ CharBitmap FT_Make::GetCharBitmap(WCHAR wchar)
 	FT_Error error;
 	FT_Bitmap bmp;
 	CharBitmap cbmp;
-	//ËÆºõ¼Ó²»¼Ó¶¼Ò»Ñù£¬¿ÉÄÜÒªFT_Outline_Embolden£¬²»¹ıÏÖÔÚĞ§¹û×ã¹»ÁË
+	//ä¼¼ä¹åŠ ä¸åŠ éƒ½ä¸€æ ·ï¼Œå¯èƒ½è¦FT_Outline_Emboldenï¼Œä¸è¿‡ç°åœ¨æ•ˆæœè¶³å¤Ÿäº†
 	FT_Bitmap_Embolden(library,&face->glyph->bitmap, 48 << 6, 48 << 6);
 	error = FT_Load_Char(face, wchar, FT_LOAD_RENDER);
 	if (error)
@@ -114,7 +114,7 @@ void WritePng(FILE *pngfile, DWORD width, DWORD height, DWORD interval, DWORD gr
 		src = new BYTE[width*height];
 		memset(src, 0, width*height);
 		for (i = 0; i < height - fill * 2; i++)
-			memcpy(src + fill * width/*³õÊ¼ÍùÏÂÆ«ÒÆÏñËØ*/ + i*width + fill/*ÍùÓÒÆ«ÒÆ¶àÉÙÏñËØ*/, data + i*(width - fill * 2), width - fill * 2);
+			memcpy(src + fill * width/*åˆå§‹å¾€ä¸‹åç§»åƒç´ */ + i*width + fill/*å¾€å³åç§»å¤šå°‘åƒç´ */, data + i*(width - fill * 2), width - fill * 2);
 	}
 	for (i = 0, k = 0; i < width*height; i++, k++)
 	{
@@ -132,7 +132,7 @@ void WritePng(FILE *pngfile, DWORD width, DWORD height, DWORD interval, DWORD gr
 		}
 		dst[k * 4 + 3] = src[i];
 	}
-	//ÏßÌõ×Ö
+	//çº¿æ¡å­—
 	if (interval)
 	{
 		for (k = 0; k < height; k++)
@@ -160,7 +160,7 @@ void WritePng(FILE *pngfile, DWORD width, DWORD height, DWORD interval, DWORD gr
 			}
 		}
 	}
-	//½¥±ä
+	//æ¸å˜
 	if (gradient)
 	{
 		for (k = 0; k < height; k++)

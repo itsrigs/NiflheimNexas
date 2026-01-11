@@ -1,9 +1,9 @@
-#include "ft_make.h"
+ï»¿#include "ft_make.h"
 
 int main(int agrc, char* agrv[])
 {
 	setlocale(LC_ALL, "chs");
-	wprintf(L"project£ºNiflheim-BALDR HEART\nÓÃÓÚÉú³ÉÃè±ßfntÓÃµÄpng¡£\n½«Âë±ítxtÎÄ¼şÍÏµ½³ÌĞòÉÏ¡£\nby Destiny¤Î»ğºü 2017.01.19\n\n");
+	wprintf(L"projectï¼šNiflheim-BALDR HEART\nç”¨äºç”Ÿæˆæè¾¹fntç”¨çš„pngã€‚\nå°†ç è¡¨txtæ–‡ä»¶æ‹–åˆ°ç¨‹åºä¸Šã€‚\nby Destinyã®ç«ç‹ 2017.01.19\n\n");
 	if (agrc != 3)
 		wprintf(L"Usage:fnt_make_bold_ft txtfile fnttype\n      fnt_make_bold_ft tbl_chs.txt 12ss\n");
 	else
@@ -14,7 +14,7 @@ int main(int agrc, char* agrv[])
 		wsprintfA(iniPath, "%s\\%s", dirPath, "fnt_make.ini");
 		if (_access(iniPath, 4) == -1)
 		{
-			wprintf(L"fnt_make.iniÎÄ¼ş²»´æÔÚ£¡");
+			wprintf(L"fnt_make.iniæ–‡ä»¶ä¸å­˜åœ¨ï¼");
 			exit(0);
 		}
 		DWORD slen, k = 0, i = 1577, height = 0, width = 0, p_count = 0, gradient = 0, interval = 0, fill = 0;

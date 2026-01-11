@@ -1,4 +1,4 @@
-//base on crass:NeXAS
+ï»¿//base on crass:NeXAS
 #define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
 #include <string.h>
@@ -118,7 +118,7 @@ int huffman_uncompress(unsigned char *uncompr, unsigned long *uncomprlen, unsign
 	if (retval != 256)
 		return -1;
 
-	index = 0;	/* ´Ó¸ù½áµã¿ªÊ¼±éÀú */
+	index = 0;	/* ä»Žæ ¹ç»“ç‚¹å¼€å§‹éåŽ† */
 	act_uncomprlen = 0;
 	max_uncomprlen = *uncomprlen;
 	while (!bit_get_high(&bits, &bitval))
@@ -134,7 +134,7 @@ int huffman_uncompress(unsigned char *uncompr, unsigned long *uncomprlen, unsign
 			if (act_uncomprlen >= max_uncomprlen)
 				break;
 			uncompr[act_uncomprlen++] = (unit8)retval;
-			index = 0;	/* ·µ»Øµ½¸ù½áµã */
+			index = 0;	/* è¿”å›žåˆ°æ ¹ç»“ç‚¹ */
 		}
 	}
 	*uncomprlen = act_uncomprlen;

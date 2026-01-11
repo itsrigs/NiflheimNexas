@@ -1,5 +1,5 @@
-/*
-ÓÃÓÚÉú³ÉfntÓÃµÄpng
+ï»¿/*
+ç”¨äºç”Ÿæˆfntç”¨çš„png
 made by Darkness-TX
 2016.12.20
 */
@@ -26,13 +26,13 @@ void WritePng(FILE *pngfile, unit32 width, unit32 height, unit8* data)
 	png_ptr = png_create_write_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
 	if (png_ptr == NULL)
 	{
-		printf("PNGĞÅÏ¢´´½¨Ê§°Ü!\n");
+		printf("PNGä¿¡æ¯åˆ›å»ºå¤±è´¥!\n");
 		exit(0);
 	}
 	info_ptr = png_create_info_struct(png_ptr);
 	if (info_ptr == NULL)
 	{
-		printf("infoĞÅÏ¢´´½¨Ê§°Ü!\n");
+		printf("infoä¿¡æ¯åˆ›å»ºå¤±è´¥!\n");
 		png_destroy_write_struct(&png_ptr, (png_infopp)NULL);
 		exit(0);
 	}
@@ -80,7 +80,7 @@ GLYPHMETRICS FontGlyph(wchar_t chText, unit32 i)
 	logfont.lfClipPrecision = 0;
 	logfont.lfQuality = 0;
 	logfont.lfPitchAndFamily = 0;
-	wcscpy(logfont.lfFaceName, L"ºÚÌå");
+	wcscpy(logfont.lfFaceName, L"é»‘ä½“");
 	HFONT hFont = CreateFontIndirect(&logfont);
 	HDC hDC = CreateCompatibleDC(NULL);;
 	SelectObject(hDC, hFont);
@@ -118,7 +118,7 @@ GLYPHMETRICS FontGlyph(wchar_t chText, unit32 i)
 		}
 	}
 	else
-		wprintf(L"ËùĞè´óĞ¡´íÎó£¡ size:0x%X\n", NeedSize);
+		wprintf(L"æ‰€éœ€å¤§å°é”™è¯¯ï¼ size:0x%X\n", NeedSize);
 	DeleteObject(hFont);
 	DeleteDC(hDC);
 	return gm;
@@ -127,7 +127,7 @@ GLYPHMETRICS FontGlyph(wchar_t chText, unit32 i)
 int main(int argc, char *argv[])
 {
 	setlocale(LC_ALL, "chs");
-	printf("project£ºNiflheim-BALDR HEART\nÓÃÓÚÉú³ÉfntÓÃµÄpng¡£\n½«Âë±ítxtÎÄ¼şÍÏµ½³ÌĞòÉÏ¡£\nby Darkness-TX 2016.12.20\n\n");
+	printf("projectï¼šNiflheim-BALDR HEART\nç”¨äºç”Ÿæˆfntç”¨çš„pngã€‚\nå°†ç è¡¨txtæ–‡ä»¶æ‹–åˆ°ç¨‹åºä¸Šã€‚\nby Darkness-TX 2016.12.20\n\n");
 	unit32 slen, k = 0, i = 1577;
 	wchar_t tbl, data[256], *find;
 	FILE *tbl_xy = fopen("tbl_xy.txt", "wt,ccs=UNICODE");
